@@ -437,15 +437,11 @@
 ]`;
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: prompt }]
-        })
-      });
+      const res = await fetch("/.netlify/functions/suggest", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt })
+});
       const data = await res.json();
       const text = data.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim();
       const meals = JSON.parse(text);
